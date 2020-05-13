@@ -1,0 +1,27 @@
+{
+  "name": "geth-google-kms",
+  "version": "1.0.0",
+  "description": "Key management system for ethereum transaction singing and broadcast built on Google KMS/OAuth and Signatory.",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon src/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zachdt/geth-google-kms.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/zachdt/geth-google-kms/issues"
+  },
+  "homepage": "https://github.com/zachdt/geth-google-kms#readme",
+  "devDependencies": {
+    "nodemon": "^2.0.3"
+  },
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
