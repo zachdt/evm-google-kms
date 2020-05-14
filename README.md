@@ -1,4 +1,4 @@
-# geth-google-kms
+# evm-google-kms
 Key management system for ethereum transaction singing and broadcast built on Google KMS/OAuth and Signatory.
 
 Project bounty: https://gitcoin.co/issue/etclabscore/bounty-integrate-signatory/1/100021650

@@ -1,11 +1,12 @@
 {
-  "name": "geth-google-kms",
+  "name": "evm-google-kms",
   "version": "1.0.0",
   "description": "Key management system for ethereum transaction singing and broadcast built on Google KMS/OAuth and Signatory.",
   "main": "index.js",
   "scripts": {
     "dev": "nodemon src/index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "testnet": "geth --identity  \"DevNode\" --nodiscover --networkid 1999 --datadir ./blockchain init DevGenesis.json"
   },
   "repository": {
     "type": "git",
@@ -22,6 +23,8 @@
     "nodemon": "^2.0.3"
   },
   "dependencies": {
-    "express": "^4.17.1"
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "google-auth-library": "^6.0.0"
   }
 }
