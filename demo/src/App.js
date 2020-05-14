@@ -42,7 +42,7 @@ function App() {
           evm-google-kms
         </p>
         <GoogleLogin
-          clientId='945508178113-5vgp03a4culm751cj2jai4e954camrkk.apps.googleusercontent.com'
+          clientId={process.env.REACT_APP_CLIENT_ID}
           buttonText="Login"
           onSuccess={respGoogle}
           onFailure={respGoogle}
