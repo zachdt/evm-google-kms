@@ -4,12 +4,26 @@ import {GoogleLogin, GoogleLogout} from 'react-google-login'
 import './App.css'
 
 function App() {
-  const [isIn, setIn] = useState(false)
+  const [In, setIn] = useState()
 
+  useEffect(() => {
+    setIn(false)
+  })
+  
   const respGoogle = (resp) => {
-    if (resp.tokenId) {
-      setIn(true)
-      console.log(resp.tokenId)
+    let token = resp.tokenId
+    if (token) {
+      const requestOptions = {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ "id_token": token})
+      }
+
+      fetch('/evm-google-kms/getwallet/', requestOptions).then(res => {
+        res = res.json()
+      })
+
+      console.log(token)
     }
     console.log(resp)
   }
@@ -18,7 +32,7 @@ function App() {
     setIn(false)
   }
 
-  if (isIn) {
+  if (In) {
     return (
       <div className="App">
         <header className="App-header">

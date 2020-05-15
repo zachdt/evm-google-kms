@@ -1,10 +1,13 @@
 const express = require('express')
 const {OAuth2Client} = require('google-auth-library')
+const bodyParser = require('body-parser')
+const {getWallet} = require('./getWallet/getWallet')
 
 require('dotenv').config()
 
 const app = express()
 const client = new OAuth2Client(process.env.CLIENT_ID)
+app.use(bodyParser.json())
 
 const verify = async (token) => {
   const ticket = await client.verifyIdToken({
@@ -13,18 +16,23 @@ const verify = async (token) => {
   })
 
   const payload = ticket.getPayload()
+
+
   const userid = payload['sub']
-  return userid
+  console.log(`Verified user ${userid}`)
+  
+  return payload
 }
 
 
-app.get('/evm-google-kms/getwallet/', (req, res) => {
-  if (!req.body.id_token) {
+app.post('/evm-google-kms/getwallet/', (req, res) => {
+  if (!req.body) {
     return res.json({error: 'No credentials... sorry'})
   } else {
-    verify(req.body.id_token).then((uid) => {
-      console.log(`Verified user ${uid}`)
-      res.json({userID: uid})
+    verify(req.body.id_token).then((payload) => {
+      getWallet(payload)
+        .then(wallet => res.send(wallet))
+        .catch(err => console.log(err))
     }).catch(console.error)
   }
 })
