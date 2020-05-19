@@ -1,38 +1,85 @@
-import React, {useState, useEffect} from 'react'
+import React, {useState, useEffect, useContext} from 'react'
 import {GoogleLogin, GoogleLogout} from 'react-google-login'
 
 import './App.css'
 
-function App() {
-  const [In, setIn] = useState()
+const App = () => {
+  const [sign, setSign] = useState(false)
+  const [token, setToken] = useState()
+  const [count, setCount] = useState(0)
+
+  const walletCount = async() => {
+    const requestOptions = {
+      method: 'GET',
+      headers: { 
+        'Accept' : 'application/json',
+        'Content-Type': 'application/json' 
+      },
+    }
+    console.log('Fetching wallet count...')
+
+    fetch('/evm-google-kms/walletcount/', requestOptions).then(res => res.json()).then((data) => {
+      console.log('Fetched')
+      console.log(data.count)
+      setCount(data.count)
+      return
+    }).catch(err => {throw err})
+  }
+
 
   useEffect(() => {
-    setIn(false)
-  })
+    walletCount().catch(err => console.log(err))
+
+  },[count, token])
   
   const respGoogle = (resp) => {
-    let token = resp.tokenId
-    if (token) {
-      const requestOptions = {
+    let temp = resp
+    if (temp) {
+      const signOptions = {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ "id_token": token})
+        headers: { 
+          'Accept' : 'application/json',
+          'Content-Type': 'application/json' 
+        },
+        body: JSON.stringify({ "id_token": temp})
       }
 
-      fetch('/evm-google-kms/getwallet/', requestOptions).then(res => {
-        res = res.json()
-      })
+      fetch('/evm-google-kms/signin/', signOptions).then((isVerfied) => {
+        setToken(resp)
+      }).catch(err => console.log(err))
 
       console.log(token)
     }
-    console.log(resp)
+
   }
 
   const respLogout = (resp) => {
-    setIn(false)
+    setSign(false)
   }
 
-  if (In) {
+
+  if (!sign) {
+    return (
+      <div className="App">
+        <header className="App-header">
+          <p>
+            evm-google-kms
+          </p>          
+            <GoogleLogin
+              clientId={process.env.REACT_APP_CLIENT_ID}
+              buttonText="Login"
+              onSuccess={respGoogle()}
+              onFailure={respGoogle()}
+              responseType="id_token"
+              cookiePolicy={'single_host_origin'}
+            />
+            
+            <p>{count}/100 wallets live</p>
+          
+        </header>
+      </div>
+    )
+  } else {
     return (
       <div className="App">
         <header className="App-header">
@@ -49,23 +96,6 @@ function App() {
       </div>
     )
   }
-  return (
-    <div className="App">
-      <header className="App-header">
-        <p>
-          evm-google-kms
-        </p>
-        <GoogleLogin
-          clientId={process.env.REACT_APP_CLIENT_ID}
-          buttonText="Login"
-          onSuccess={respGoogle}
-          onFailure={respGoogle}
-          cookiePolicy={'single_host_origin'}
-        />
-      </header>
-    </div>
-  )
-  
 }
 
 export default App;

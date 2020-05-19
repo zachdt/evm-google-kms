@@ -12,7 +12,7 @@ const keyRingName = client.keyRingPath(process.env.PROJECT_ID, process.env.LOCAT
 exports.createKey = async(uid, member) =>{
   const [key] = await client.createCryptoKey({
     parent: keyRingName,
-    cryptoKeyId: uid,
+    cryptoKeyId: keyId,
     cryptoKey: {
       purpose: 'ENCRYPT_DECRYPT',
       versionTemplate: {

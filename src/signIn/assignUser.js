@@ -17,8 +17,9 @@ const {KeyManagementServiceClient} = require('@google-cloud/kms');
 const client = new KeyManagementServiceClient();
 
 
-async function iamAddMember(member, keyId) {
+exports.iamAddMember = async(member, keyId) => {
   // Build the resource name
+  console.log('Adding user permissions to key: ', keyId)
   const resourceName = client.cryptoKeyPath(
     projectId,
     locationId,
@@ -35,17 +36,12 @@ async function iamAddMember(member, keyId) {
     role: 'roles/cloudkms.cryptoKeyEncrypterDecrypter',
     members: [member],
   });
-
   // Save the updated policy.
   const [updatedPolicy] = await client.setIamPolicy({
     resource: resourceName,
     policy: policy,
   });
 
-  console.log('Updated policy');
+  console.log(updatedPolicy);
   return updatedPolicy;
 }
-
-module.exports = [
-  iamAddMember
-]
