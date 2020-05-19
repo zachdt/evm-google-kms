@@ -4,7 +4,7 @@
   "description": "Key management system for ethereum transaction singing and broadcast built on Google KMS/OAuth and Signatory.",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon src/index.js",
+    "dev": "nodemon src/index.js & signatory",
     "test": "echo \"Error: no test specified\" && exit 1",
     "testnet": "geth --identity  \"DevNode\" --nodiscover --networkid 1999 --datadir ./blockchain init DevGenesis.json"
   },
@@ -23,13 +23,19 @@
     "nodemon": "^2.0.3"
   },
   "dependencies": {
+    "@etclabscore/signatory": "^1.0.8",
     "@google-cloud/kms": "^2.0.0",
     "body-parser": "^1.19.0",
+    "concurrently": "^5.2.0",
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
     "ethereumjs-wallet": "^0.6.3",
     "express": "^4.17.1",
+    "express-session": "^1.17.1",
     "google-auth-library": "^6.0.0",
-    "passport": "^0.4.1"
+    "passport": "^0.4.1",
+    "passport-google-oauth20": "^2.0.0",
+    "signatory": "0.0.2",
+    "uuid": "^8.0.0"
   }
 }

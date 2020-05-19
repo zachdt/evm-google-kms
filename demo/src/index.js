@@ -1,13 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import {Switch} from 'react-router'
 import './index.css';
-import App from './App';
+import Routes from './Routes';
 import * as serviceWorker from './serviceWorker';
 
 ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
+    <Routes />,
   document.getElementById('root')
 );
 
